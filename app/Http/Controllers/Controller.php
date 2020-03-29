@@ -12,9 +12,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function success($data = [], $msg = 'success', $code = 20000)
+    protected function success($data = null, $msg = 'success', $code = 20000)
     {
-        return response()->json(['code' => $code, 'msg' => $msg, 'data' => $this->deleteNull($data)]);
+        if (is_null($data)) {
+            return response()->json(['code' => $code, 'msg' => $msg, 'data' => new \stdClass()]);
+        } else {
+            return response()->json(['code' => $code, 'msg' => $msg, 'data' => $this->deleteNull($data)]);
+        }
     }
 
     protected function error($msg = 'error', $code = 40000)

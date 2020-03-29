@@ -72,4 +72,9 @@ class UserController extends Controller
         }
         return $this->error();
     }
+
+    public function authList(Request $request)
+    {
+
+    }
 }
