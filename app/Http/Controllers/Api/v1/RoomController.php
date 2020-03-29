@@ -30,6 +30,9 @@ class RoomController extends Controller
             return $this->error('房间已经存在');
         }
         $user = auth('api')->user();
+        if ($user->status !== 4) {
+            return $this->error('你还没有认证，请先认证');
+        }
         $data = [];
         $data['title'] = $title;
         $data['description'] = $description;
