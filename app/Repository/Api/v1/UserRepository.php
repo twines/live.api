@@ -10,6 +10,7 @@
 namespace App\Repository\Api\v1;
 
 
+use App\Models\UserProfile;
 use App\User;
 
 class UserRepository
@@ -22,5 +23,10 @@ class UserRepository
     public function addUser($data)
     {
         return User::create($data);
+    }
+
+    public function addUserProfile($data)
+    {
+        return UserProfile::create($data);
     }
 }

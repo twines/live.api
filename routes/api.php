@@ -19,7 +19,9 @@ Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
     Route::post('/refresh', 'LoginController@refresh');
     Route::post('/register', 'RegisterController@register');
     Route::post('/upload', 'UploadController@index');
-    Route::group(['middleware' => ['api']], function () {
+    Route::group(['middleware' => ['jwt.auth']], function () {
+        //用户认证
+        Route::post('/user/auth', 'UserController@doAuth');
     });
 });
 
