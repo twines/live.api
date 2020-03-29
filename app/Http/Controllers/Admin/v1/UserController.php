@@ -75,6 +75,9 @@ class UserController extends Controller
 
     public function authList(Request $request)
     {
-
+        $status = $request->get('status');
+        $keyword = $request->get('keyword');
+        $authList = $this->userRepository->getAuthList($keyword, $status);
+        return $this->success($authList->toArray());
     }
 }

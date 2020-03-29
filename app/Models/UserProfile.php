@@ -13,6 +13,15 @@ class UserProfile extends Model
         'card_number',
         'card_a',
         'card_b',
-
     ];
+
+    public function getCardAAttribute($val)
+    {
+        return asset($val);
+    }
+
+    public function getCardBAttribute($val)
+    {
+        return asset($val);
+    }
 }

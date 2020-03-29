@@ -10,6 +10,7 @@
 namespace App\Repository\Admin\v1;
 
 
+use App\Models\UserProfile;
 use App\User;
 
 class UserRepository
@@ -21,7 +22,6 @@ class UserRepository
                 if ($keyword) {
                     $q->orWhere('mobile', $keyword)
                         ->orWhere('username', 'like', "%$keyword%")
-                        ->orWhere('true_name', 'like', "%$keyword%")
                         ->orWhere('nickname', 'like', "%$keyword%");
                 }
             })
@@ -56,5 +56,26 @@ class UserRepository
     public function updateUser($userId, $data)
     {
         return User::where('id', $userId)->update($data);
+    }
+
+    public function getAuthList($keyword = null, $status = null)
+    {
+        return UserProfile::leftjoin('users', 'users.id', '=', 'user_profiles.user_id')
+            ->where(function ($q) use ($keyword) {
+                if ($keyword) {
+                    $q->orWhere('users.mobile', $keyword)
+                        ->orWhere('users.username', 'like', "%$keyword%")
+                        ->orWhere('user_profiles.true_name', 'like', "%$keyword%")
+                        ->orWhere('users.nickname', 'like', "%$keyword%");
+                }
+            })
+            ->where(function ($q) use ($status) {
+                if (!is_null($status)) {
+                    $q->where('users.status', $status);
+                }
+            })
+            ->select('user_profiles.*', 'users.username', 'users.qq', 'users.email', 'users.mobile')
+            ->orderby('user_profiles.id', 'desc')
+            ->paginate();
     }
 }
