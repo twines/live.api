@@ -22,6 +22,7 @@ Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
     Route::group(['middleware' => ['jwt.auth']], function () {
         //用户认证
         Route::post('/user/auth', 'UserController@doAuth');
+        Route::post('/room/add', 'RoomController@addRoom');
     });
 });
 
