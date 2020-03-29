@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
-    Route::post('login', 'LoginController@login');
-    Route::post('logout', 'LoginController@logout');
-    Route::post('refresh', 'LoginController@refresh');
-    Route::post('register', 'RegisterController@register');
+    Route::post('/login', 'LoginController@login');
+    Route::post('/logout', 'LoginController@logout');
+    Route::post('/refresh', 'LoginController@refresh');
+    Route::post('/register', 'RegisterController@register');
+    Route::post('/upload', 'UploadController@index');
     Route::group(['middleware' => ['api']], function () {
     });
 });
