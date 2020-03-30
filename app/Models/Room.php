@@ -11,5 +11,16 @@ class Room extends Model
         'title',
         'description',
         'user_id',
+        'cover',
     ];
+
+    public function getCoverAttribute($val)
+    {
+        return asset($val);
+    }
+    public function getStreamPathAttribute($val)
+    {
+        return asset($val);
+    }
+
 }

@@ -20,5 +20,7 @@ Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
         Route::put('/user/{userId}', 'UserController@updateUser');
         //申请认证列表
         Route::get('/user/auth/list', 'UserController@authList');
+        //直播间列表
+        Route::get('/room/list', 'RoomController@getRoomList');
     });
 });
