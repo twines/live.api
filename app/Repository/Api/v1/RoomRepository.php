@@ -23,4 +23,14 @@ class RoomRepository
     {
         return Room::where('title', '=', $title)->first();
     }
+
+    public function getUserRoomList($userId)
+    {
+        return Room::where('user_id', $userId)->orderby('id', 'desc')->get();
+    }
+
+    public function getRoomById($roomId)
+    {
+        return Room::find($roomId);
+    }
 }

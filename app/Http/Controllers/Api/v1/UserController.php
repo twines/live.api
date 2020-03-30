@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Repository\Api\v1\RoomRepository;
 use App\Repository\Api\v1\UserRepository;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,12 @@ class UserController extends Controller
 {
     //
     private $userRepository;
-    public function __construct(UserRepository $userRepository)
+    private $roomRepository;
+
+    public function __construct(UserRepository $userRepository, RoomRepository $roomRepository)
     {
         $this->userRepository = $userRepository;
+        $this->roomRepository = $roomRepository;
     }
 
     public function doAuth(Request $request)
@@ -32,5 +36,25 @@ class UserController extends Controller
             return $this->success();
         }
         return $this->error();
+    }
+
+    public function getUserRoomList()
+    {
+        $user = auth()->user();
+        $roomList = $this->roomRepository->getUserRoomList($user->id);
+        return $this->success($roomList->toArray());
+    }
+
+    public function joinRoom(Request $request)
+    {
+        $userId = $request->get('userId');
+        $roomId = $request->get('roomId');
+        $room = $this->roomRepository->getRoomById($roomId);
+        if (!$room) {
+            abort(404);
+        }
+        if (!$room->free) {
+            abort(403);
+        }
     }
 }

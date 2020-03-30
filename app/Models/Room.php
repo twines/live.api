@@ -12,6 +12,7 @@ class Room extends Model
         'description',
         'user_id',
         'cover',
+        'free',
     ];
 
     public function getCoverAttribute($val)
