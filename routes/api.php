@@ -26,6 +26,9 @@ Route::group(['namespace' => 'v1', 'prefix' => 'v1'], function () {
         Route::post('/user/room/list', 'UserController@getUserRoomList');
         //添加房间
         Route::post('/room/add', 'RoomController@addRoom');
+
+        //用户加入直播间
+        Route::post('/room/user/join', 'RoomController@addRoom');
         //为直播间付费
         Route::post('/room/pay', 'PayController@pay');
     });

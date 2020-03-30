@@ -44,17 +44,4 @@ class UserController extends Controller
         $roomList = $this->roomRepository->getUserRoomList($user->id);
         return $this->success($roomList->toArray());
     }
-
-    public function joinRoom(Request $request)
-    {
-        $userId = $request->get('userId');
-        $roomId = $request->get('roomId');
-        $room = $this->roomRepository->getRoomById($roomId);
-        if (!$room) {
-            abort(404);
-        }
-        if (!$room->free) {
-            abort(403);
-        }
-    }
 }

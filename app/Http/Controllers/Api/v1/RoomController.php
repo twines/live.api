@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Repository\Api\v1\PayRepository;
 use App\Repository\Api\v1\RoomRepository;
 use Illuminate\Http\Request;
 
@@ -10,10 +11,12 @@ class RoomController extends Controller
 {
     //
     private $roomRepository;
+    private $payRepository;
 
-    public function __construct(RoomRepository $roomRepository)
+    public function __construct(RoomRepository $roomRepository, PayRepository $payRepository)
     {
         $this->roomRepository = $roomRepository;
+        $this->payRepository = $payRepository;
     }
 
     public function addRoom(Request $request)
@@ -41,5 +44,37 @@ class RoomController extends Controller
             return $this->success($room->toArray());
         }
         return $this->error('创建房间失败');
+    }
+
+    public function joinRoom(Request $request)
+    {
+        $userId = $request->get('userId');
+        $roomId = $request->get('roomId');
+        $room = $this->roomRepository->getRoomById($roomId);
+        $ua = $request->userAgent();
+        if ($ua == 'android' || $ua = 'ios') {
+            if (!$room) {
+                return $this->error();
+            }
+            if (!$room->free) {
+                $pay = $this->payRepository->getRoomPay($roomId, $userId);
+                if (!$pay) {
+                    return $this->error();
+                }
+            }
+            return $this->success();
+        } else {
+            if (!$room) {
+                abort(404);
+            }
+            if (!$room->free) {
+                $pay = $this->payRepository->getRoomPay($roomId, $userId);
+                if (!$pay) {
+                    abort(403);
+                }
+            }
+            return $this->success();
+        }
+
     }
 }
