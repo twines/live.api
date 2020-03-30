@@ -52,7 +52,7 @@ class RoomController extends Controller
         $roomId = $request->get('roomId');
         $room = $this->roomRepository->getRoomById($roomId);
         $ua = $request->userAgent();
-        if ($ua == 'android' || $ua = 'ios') {
+        if (strpos($ua, 'Android') || strpos($ua, 'iPhone') || strpos($ua, 'iPad')) {
             if (!$room) {
                 return $this->error();
             }
